@@ -94,3 +94,55 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ```
 
+**6. Instalar o Samtools**
+
+***Instala o samtools, um conjunto essencial de ferramentas para manipulação de arquivos SAM/BAM/FASTA/FASTQ, muito usado em análises genômicas.***
+
+```Python
+!sudo apt-get install samtools
+```
+
+**7. Verificar funcionamento do Samtools**
+
+***Executa o comando base do samtools para verificar se a instalação foi concluída e exibir o menu de opções disponíveis.***
+
+```Python
+!samtools
+```
+
+**8. Gerar índice para chr9.fa (arquivo .fai)**
+
+***Gera o arquivo de índice chr9.fa.fai, necessário para acesso rápido a posições específicas dentro do FASTA.***
+
+```Python
+!samtools faidx chr9.fa
+```
+
+***conteúdo do índice gerado, permitindo verificar se a criação foi bem-sucedida.***
+
+```Python
+! cat chr9.fa.fai
+```
+
+**output:**
+
+```
+9	141213431	3	50	51
+```
+
+**9. Fazer download do GATK4**
+
+***Baixa o pacote do GATK4, um conjunto de ferramentas amplamente utilizado em análise de variantes.***
+
+```Python
+!wget -c https://github.com/broadinstitute/gatk/releases/download/4.2.2.0/gatk-4.2.2.0.zip
+```
+
+
+
+
+
+
+
+
+
