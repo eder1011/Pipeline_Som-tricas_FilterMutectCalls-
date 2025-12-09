@@ -322,6 +322,8 @@ contig	position	ref_count	alt_count	other_alt_count	allele_frequency
 
 **18. Filtrar variantes (FilterMutectCalls)**
 
+***Aplica filtros automáticos do Mutect2 para remover falsos positivos.***
+
 ```bash
 %%bash
 ./gatk-4.2.2.0/gatk FilterMutectCalls \
@@ -330,3 +332,24 @@ contig	position	ref_count	alt_count	other_alt_count	allele_frequency
 --contamination-table contamination.table \
 -O filtered.vcf.gz
 ```
+
+**Visualizar variantes filtradas:**
+
+***Permite ver as variantes finais apuradas no gene JAK2.***
+
+```Python
+# JAK2
+!zgrep -v "##" filtered.vcf.gz
+```
+
+**output:**
+
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	WP043	WP044
+9	5044364	.	C	A	.	normal_artifact;strand_bias;weak_evidence	AS_FilterStatus=weak_evidence,strand_bias;AS_SB_TABLE=327,59|5,3;DP=450;ECNT=1;GERMQ=93;MBQ=31,20;MFRL=150,100;MMQ=60,60;MPOS=16;NALOD=-7.224e-01;NLOD=30.61;POPAF=6.00;TLOD=6.42	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:258,6:0.022:264:88,3:130,1:212,46,4,2	0/0:128,2:0.016:130:48,0:69,1:115,13,1,1
+9	5054761	.	A	G	.	strand_bias	AS_FilterStatus=strand_bias;AS_SB_TABLE=114,218|4,29;DP=387;ECNT=1;GERMQ=93;MBQ=30,30;MFRL=165,176;MMQ=60,60;MPOS=20;NALOD=2.05;NLOD=32.76;POPAF=6.00;TLOD=76.57	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:207,33:0.148:240:76,14:100,16:71,136,4,29	0/0:125,0:8.880e-03:125:52,0:50,0:43,82,0,0
+9	5073681	.	C	CT	.	normal_artifact;slippage;strand_bias;weak_evidence	AS_FilterStatus=weak_evidence,strand_bias;AS_SB_TABLE=103,28|6,1;DP=162;ECNT=2;GERMQ=93;MBQ=31,30;MFRL=157,163;MMQ=60,60;MPOS=20;NALOD=0.125;NLOD=7.62;POPAF=6.00;RPA=10,11;RU=T;STR;STRQ=1;TLOD=3.97	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:93,6:0.063:99:28,2:47,3:74,19,5,1	0/0:38,1:0.048:39:11,1:18,0:29,9,1,0
+9	5073770	.	G	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=47,158|5,30;DP=247;ECNT=2;GERMQ=93;MBQ=31,29;MFRL=154,159;MMQ=60,60;MPOS=17;NALOD=1.86;NLOD=21.06;POPAF=3.40;TLOD=82.13	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:130,35:0.241:165:12,3:25,4:35,95,5,30	0/0:75,0:0.014:75:6,0:9,0:12,63,0,0
+```
+
+
