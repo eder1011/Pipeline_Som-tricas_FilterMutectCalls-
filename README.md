@@ -352,4 +352,5 @@ contig	position	ref_count	alt_count	other_alt_count	allele_frequency
 9	5073770	.	G	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=47,158|5,30;DP=247;ECNT=2;GERMQ=93;MBQ=31,29;MFRL=154,159;MMQ=60,60;MPOS=17;NALOD=1.86;NLOD=21.06;POPAF=3.40;TLOD=82.13	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:130,35:0.241:165:12,3:25,4:35,95,5,30	0/0:75,0:0.014:75:6,0:9,0:12,63,0,0
 ```
 
-
+**Colab**
+> https://colab.research.google.com/drive/1rMhlp-wxLKlBxETXxxzR-6rbNLbHVLYj#scrollTo=trqDUrt9EbNp
