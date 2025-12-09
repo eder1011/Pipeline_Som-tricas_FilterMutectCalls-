@@ -220,9 +220,13 @@ WP044
 ```
 
 **15. Chamadas de variantes com Mutect2**
+
 ***Executa o Mutect2 para detectar variantes somáticas comparando tumor vs normal, usando o cromossomo 9 como alvo.***
+
 ***tumor_JAK2.bam: amostra tumoral***
+
 ***normal_JAK2.bam: amostra normal***
+
 ***gnomAD: base para remoção de variantes germinativas***
 
 ```bash
@@ -238,32 +242,91 @@ WP044
 	-L chr9.interval_list
 ```
 
+**Visualizar VCF gerado::**
 
+```Python
+!zgrep -v "\##" somatic.vcf.gz
+```
 
+**output:**
 
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	WP043	WP044
+9	5044364	.	C	A	.	.	AS_SB_TABLE=327,59|5,3;DP=450;ECNT=1;MBQ=31,20;MFRL=150,100;MMQ=60,60;MPOS=16;NALOD=-7.224e-01;NLOD=30.61;POPAF=6.00;TLOD=6.42	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:258,6:0.022:264:88,3:130,1:212,46,4,2	0/0:128,2:0.016:130:48,0:69,1:115,13,1,1
+9	5054761	.	A	G	.	.	AS_SB_TABLE=114,218|4,29;DP=387;ECNT=1;MBQ=30,30;MFRL=165,176;MMQ=60,60;MPOS=20;NALOD=2.05;NLOD=32.76;POPAF=6.00;TLOD=76.57	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:207,33:0.148:240:76,14:100,16:71,136,4,29	0/0:125,0:8.880e-03:125:52,0:50,0:43,82,0,0
+9	5073681	.	C	CT	.	.	AS_SB_TABLE=103,28|6,1;DP=162;ECNT=2;MBQ=31,30;MFRL=157,163;MMQ=60,60;MPOS=20;NALOD=0.125;NLOD=7.62;POPAF=6.00;RPA=10,11;RU=T;STR;TLOD=3.97	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:93,6:0.063:99:28,2:47,3:74,19,5,1	0/0:38,1:0.048:39:11,1:18,0:29,9,1,0
+9	5073770	.	G	T	.	.	AS_SB_TABLE=47,158|5,30;DP=247;ECNT=2;MBQ=31,29;MFRL=154,159;MMQ=60,60;MPOS=17;NALOD=1.86;NLOD=21.06;POPAF=3.40;TLOD=82.13	GT:AD:AF:DP:F1R2:F2R1:SB	0/1:130,35:0.241:165:12,3:25,4:35,95,5,30	0/0:75,0:0.014:75:6,0:9,0:12,63,0,0
+```
 
+**Mostra variantes (Mostra metadados do arquivo VCF.).**
 
+```Python
+!zgrep "##" somatic.vcf.gz
+```
 
+**16. GetPileupSummaries (tumor e normal)**
 
+***Usado para estimar contaminação.***
 
+**Tumor:**
 
+```Python
+!./gatk-4.2.2.0/gatk GetPileupSummaries \
+	-I somatico/tumor_JAK2.bam \
+	-V somatico/af-only-gnomad-chr9.vcf.gz \
+	-L chr9.interval_list \
+	-O tumor_JAK2.table
+```
+***Exemplo de visualização:***
 
+```Python
+!head tumor_JAK2.table
+```
 
+**output:**
 
+```
+#<METADATA>SAMPLE=WP043
+contig	position	ref_count	alt_count	other_alt_count	allele_frequency
+9	5029611	6	0	0	0.012
+9	5030080	3	0	0	0.078
+9	5033977	1	0	0	0.197
+9	5035069	1	0	0	0.075
+9	5041562	14	0	0	0.017
+9	5043050	1	0	0	0.016
+9	5044331	89	0	1	0.02
+9	5045664	2	0	0	0.078
+```
 
+**Normal:**
 
+```Python
+!./gatk-4.2.2.0/gatk GetPileupSummaries \
+	-I somatico/normal_JAK2.bam \
+	-V somatico/af-only-gnomad-chr9.vcf.gz \
+	-L chr9.interval_list \
+	-O normal_JAK2.table
+```
 
+**17. Calcular contaminação**
 
+***Gera uma estimativa de contaminação do tumor, usada no filtro final.***
 
+```bash
+%%bash
+./gatk-4.2.2.0/gatk CalculateContamination \
+	-I tumor_JAK2.table \
+	-matched normal_JAK2.table \
+	-O contamination.table
+```
 
+**18. Filtrar variantes (FilterMutectCalls)**
 
-
-
-
-
-
-
-
-
-
-
+```bash
+%%bash
+./gatk-4.2.2.0/gatk FilterMutectCalls \
+-R chr9.fa \
+-V somatic.vcf.gz \
+--contamination-table contamination.table \
+-O filtered.vcf.gz
+```
