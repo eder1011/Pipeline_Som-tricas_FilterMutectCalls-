@@ -205,6 +205,63 @@ chr9.fa    chr9.fa.gz	gatk-4.2.2.0	    sample_data
 
 
 
+**14. Obter o ID da amostra normal no BAM**
+
+***Extrai o campo SM (Sample Name) do cabeçalho do BAM da amostra normal. Esse ID deve ser usado no parâmetro -normal do Mutect2.***
+
+```Python
+!samtools view -H somatico/normal_JAK2.bam | grep RG | cut -f6 | sed -e "s/SM://g"
+```
+
+**output:**
+
+```
+WP044
+```
+
+**15. Chamadas de variantes com Mutect2**
+***Executa o Mutect2 para detectar variantes somáticas comparando tumor vs normal, usando o cromossomo 9 como alvo.***
+***tumor_JAK2.bam: amostra tumoral***
+***normal_JAK2.bam: amostra normal***
+***gnomAD: base para remoção de variantes germinativas***
+
+```bash
+%%bash
+
+./gatk-4.2.2.0/gatk Mutect2 \
+	-R chr9.fa \
+	-I somatico/tumor_JAK2.bam \
+	-I somatico/normal_JAK2.bam \
+	-normal WP044 \
+	--germline-resource somatico/af-only-gnomad-chr9.vcf.gz \
+	-O somatic.vcf.gz \
+	-L chr9.interval_list
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
