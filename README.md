@@ -164,5 +164,49 @@ apt-get update
 apt-get install openjdk-11-jdk -y
 ```
 
+**11. Criar o dicionário .dict do FASTA**
+
+***Cria o arquivo chr9.dict, necessário para ferramentas que exigem FASTA com índice e dicionário (como Mutect2). Ele descreve os contigs e tamanhos da referência.***
+
+```Python
+!./gatk-4.2.2.0/gatk CreateSequenceDictionary -R chr9.fa -O chr9.dict
+```
+
+***Exibe o conteúdo do dicionário para conferir se foi gerado corretamente.***
+
+```Python
+!cat chr9.dict
+```
+
+**12. Gerar lista de intervalos do cromossomo 9**
+
+***Gera uma lista de intervalos contíguos do FASTA, ignorando regiões com Ns. Usada como entrada para Mutect2, limitando a análise apenas ao cromossomo 9.***
+
+```Python
+!./gatk-4.2.2.0/gatk ScatterIntervalsByNs -R chr9.fa -O chr9.interval_list -OT ACGT
+```
+
+**13. Listar arquivos do diretório**
+
+***Mostra os arquivos gerados até o momento (FASTA, index, dict, intervalos, etc.).***
+
+```Python
+!ls
+```
+
+**output:**
+```
+chr9.dict  chr9.fa.fai	chr9.interval_list  gatk-4.2.2.0.zip  somatico
+chr9.fa    chr9.fa.gz	gatk-4.2.2.0	    sample_data
+```
+
+
+
+
+
+
+
+
+
 
 
