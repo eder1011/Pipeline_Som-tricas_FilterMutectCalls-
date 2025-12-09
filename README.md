@@ -118,7 +118,7 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 !samtools faidx chr9.fa
 ```
 
-***conteúdo do índice gerado, permitindo verificar se a criação foi bem-sucedida.***
+***Conteúdo do índice gerado, permitindo verificar se a criação foi bem-sucedida.***
 
 ```Python
 ! cat chr9.fa.fai
@@ -138,11 +138,31 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 !wget -c https://github.com/broadinstitute/gatk/releases/download/4.2.2.0/gatk-4.2.2.0.zip
 ```
 
+***Descompacta os arquivos do GATK para o diretório local.***
 
+```Python
+!unzip gatk-4.2.2.0.zip
+```
 
+***Executa o comando base para verificar se o GATK está acessível e funcionando corretamente.***
 
+```Python
+!./gatk-4.2.2.0/gatk
+```
 
+**10. Criar o arquivo de dicionário .dict**
 
+***Obs.: Antes de criar o dicionário, é necessário garantir que o Java esteja instalado, pois o GATK depende dele.***
+
+***Atualiza a lista de pacotes e instala o OpenJDK 11, garantindo compatibilidade com o GATK.***
+
+***A etapa seguinte (que pode ser adicionada depois) usará o CreateSequenceDictionary para gerar o arquivo .dict correspondente ao FASTA.***
+
+```bash
+%%bash
+apt-get update
+apt-get install openjdk-11-jdk -y
+```
 
 
 
