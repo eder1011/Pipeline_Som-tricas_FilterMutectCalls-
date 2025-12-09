@@ -16,7 +16,7 @@ Cloning into 'somatico'...
 
 ***Faz o download do arquivo compactado contendo a sequência do cromossomo 9 do genoma humano (versão hg19), disponibilizado pelo UCSC Genome Browser.***
 
-```
+```Python
 !wget -c https://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr9.fa.gz
 ```
 
@@ -44,7 +44,7 @@ chr9.fa.gz          100%[===================>]  37.64M  29.6MB/s    in 1.3s
 
 ***O arquivo final chr9.fa fica padronizado para ferramentas que não aceitam o prefixo chr.***
 
-```
+```Python
 !zcat chr9.fa.gz | sed -e "s/chr//g" > chr9.fa
 ```
 
@@ -201,11 +201,23 @@ chr9.fa    chr9.fa.gz	gatk-4.2.2.0	    sample_data
 ```
 
 
+**14. Visualizar o dicionário da referência**
+
+***Esse comando apenas exibe o conteúdo do arquivo para conferência.***
+
+```Python
+!cat chr9.dict
+```
+
+**output:**
+
+```
+@HD	VN:1.6
+@SQ	SN:9	LN:141213431	M5:3e273117f15e0a400f01055d9f393768	UR:file:/content/chr9.fa
+```
 
 
-
-
-**14. Obter o ID da amostra normal no BAM**
+**15. Obter o ID da amostra normal no BAM**
 
 ***Extrai o campo SM (Sample Name) do cabeçalho do BAM da amostra normal. Esse ID deve ser usado no parâmetro -normal do Mutect2.***
 
@@ -219,7 +231,7 @@ chr9.fa    chr9.fa.gz	gatk-4.2.2.0	    sample_data
 WP044
 ```
 
-**15. Chamadas de variantes com Mutect2**
+**16. Chamadas de variantes com Mutect2**
 
 ***Executa o Mutect2 para detectar variantes somáticas comparando tumor vs normal, usando o cromossomo 9 como alvo.***
 
@@ -264,7 +276,7 @@ WP044
 !zgrep "##" somatic.vcf.gz
 ```
 
-**16. GetPileupSummaries (tumor e normal)**
+**17. GetPileupSummaries (tumor e normal)**
 
 ***Usado para estimar contaminação.***
 
@@ -308,7 +320,7 @@ contig	position	ref_count	alt_count	other_alt_count	allele_frequency
 	-O normal_JAK2.table
 ```
 
-**17. Calcular contaminação**
+**18. Calcular contaminação**
 
 ***Gera uma estimativa de contaminação do tumor, usada no filtro final.***
 
@@ -320,7 +332,7 @@ contig	position	ref_count	alt_count	other_alt_count	allele_frequency
 	-O contamination.table
 ```
 
-**18. Filtrar variantes (FilterMutectCalls)**
+**19. Filtrar variantes (FilterMutectCalls)**
 
 ***Aplica filtros automáticos do Mutect2 para remover falsos positivos.***
 
